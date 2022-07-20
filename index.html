@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>puzzle game</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: rgb(179, 69, 230);
+            display: flex;
+            align-items: center;
+            
+            justify-content: center;
+        }
+        .all{
+            background-color: rgb(179, 69, 230);
+            display: flex;
+            align-items: center;
+            
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        .container{
+            background-image: url('https://images.pexels.com/photos/3482441/pexels-photo-3482441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-repeat: no-repeat;
+            background-size: 100%;
+            min-height: 40vw;
+            width: 60vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin: auto auto;
+        }
+        .container h1{
+            color: rgb(0, 0, 0);
+            font-size: 3.5vw;
+            margin-bottom: 10px;
+        }
+        .intro{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .intro button{
+            width: 30vw;
+            height: 5vw;
+            border-radius: 10px;
+            background-color: rgb(100, 201, 183);
+            border: 0;
+            font-size: 1.7vw;
+        }
+        .intro button:hover{
+            background-color: blueviolet;
+            color: white;
+        }
+        a:hover{
+            color: white;
+        }
+        a{
+            text-decoration: none;
+        }
+        img{
+            margin-top: 10px;
+            width: 25vw;
+        }
+        @media (max-width:450px) {
+            .container h1{
+            color: rgb(0, 0, 0);
+            font-size: 5vw;
+            margin-bottom: 10px;
+        }
+            .intro button{
+            width: 40vw;
+            height: 10vw;
+            border-radius: 10px;
+            background-color: rgb(100, 201, 183);
+            border: 0;
+            font-size: 3vw;
+        }
+            img{
+            width: 40vw;
+        }
+        .container{
+            min-height: 90vw;
+            width: 98vw;
+            background-size: 140%;
+        }
+        }
+        @media(min-width:450px) and (max-width:600px) {
+            .container h1{
+            color: rgb(0, 0, 0);
+            font-size: 5vw;
+            margin-bottom: 10px;
+        }
+            .intro button{
+            width: 40vw;
+            height: 10vw;
+            border-radius: 10px;
+            background-color: rgb(100, 201, 183);
+            border: 0;
+            font-size: 3vw;
+        }
+            img{
+            width: 30vw;
+        }
+        .container{
+            min-height: 60vw;
+            width: 95vw;
+        }
+        }
+        @media(min-width:600px) and (max-width:1000px) {
+            img{
+            width: 25vw;
+        }
+        .container{
+            min-height: 60vw;
+            width: 90vw;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="all">
+    <div class="container" >
+        <div class="intro">
+        <h1>Welcome To The Puzzle Game</h1>
+        <button><a href="gamepage.html">Choose the type of puzzle</a> </button>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/15-puzzle_magical.svg/1200px-15-puzzle_magical.svg.png" alt="">
+    </div>
+    </div>
+</div>
+</body>
+</html>

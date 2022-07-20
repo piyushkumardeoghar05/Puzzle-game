@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #57407c;
+            /* background-image: linear-gradient(45deg, blue, skyblue, wheat, rgb(80, 215, 56), rgb(255, 255, 255)); */
+            /* background-image: url('https://img.freepik.com/free-vector/alien-planet-landscape-cosmic-background-deserted-coastline-with-mountains-view-glowing-cleft-stars-shining-spheres-space-extraterrestrial-pc-game-backdrop-cartoon-vector-illustration_107791-8012.jpg?t=st=1658226660~exp=1658227260~hmac=06eaeea25b07992bd830ee41e19313aab6c3f224d47a988d270421b49fe4059f&w=826');
+            background-repeat: no-repeat;*/
+            /* background-size: 1100%; */
+
+            /* min-height: 60vw; */
+            /*width: 100vw; */
+        }
+
+        .container {
+            /* grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); */
+            /* grid-column-gap: 3rem; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+        }
+
+        .game {
+            display: flex;
+            /* flex-direction: column; */
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            flex-wrap: wrap;
+        }
+
+        .boxes {
+            /* border: 2px solid red; */
+            display: grid;
+            grid-template-columns: repeat(4, 7vw);
+            grid-template-rows: repeat(4, 7vw);
+            border-radius: 15px;
+            margin: 0rem 2rem;
+            padding: 2rem;
+            /* background-color: rgba(165, 148, 148, 0.387); */
+        }
+
+        .box {
+            /* border: 2px solid black; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5vw;
+            cursor: pointer;
+            border-radius: 40px;
+            margin: 0.1rem;
+            background-image: url('woodbg.jpg');
+            background-size: 100%;
+        }
+
+        .box:hover {
+            background-color: rgb(214, 211, 211);
+        }
+
+        .info {
+            /* border:2px solid red; */
+            background-color: rgba(44, 46, 46, 0.518);
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info p {
+            text-align: center;
+            font-size: 1.5rem;
+
+        }
+
+        #startnewgame {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* #startnewgame span{
+            margin-top: 2px;
+            padding-top: 2px;
+            font-size: 1rem;
+        } */
+        #gif {
+            display: none;
+            width: 20vw;
+        }
+
+        #wintext {
+            display: none;
+        }
+
+        #winpart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .howtoplay {
+            padding: 0.6rem;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);
+        }
+
+        /* #modal{
+            display: ;
+        } */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #myBtn {
+            padding: 0.5rem;
+            border-radius: 10px;
+            border: 1px solid skyblue;
+            margin-bottom: 10px;
+            /* background-color: rgb(104, 195, 200); */
+        }
+
+        #myBtn:hover {
+            background-color: rgb(64, 182, 205);
+
+        }
+
+        .timeandmove {
+
+            display: flex;
+
+        }
+
+        #time,
+        #moves {
+            padding: 1rem 2rem;
+            margin-top: 5px;
+            border-radius: 10px;
+            /* margin: 1rem; */
+            background-color: rgb(42, 180, 111);
+
+        }
+
+        #time {
+            margin-right: 10vw;
+        }
+
+        #moves {
+            margin-left: 10vw;
+        }
+
+        #pausebtn {
+            cursor: pointer;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        #playbtn {
+            cursor: pointer;
+            border: 2px solid black;
+            border-radius: 10px;
+            display: none;
+        }
+        #choose{
+            width: 20vw;
+            height: 5vw;
+            border: 2px solid red;
+        }
+        #backbutton{
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            border: 1px solid blue;
+        }
+        #backbutton a{
+            text-decoration: none;
+            color: black;
+        }
+        #backbutton:hover{
+            background-color: rgba(0, 0, 255, 0.539);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container" class="container">
+        <div id="info" class="info">
+            <h1>Weclome to the Puzzle Game</h1>
+            <p>Put your mind to the test</p>
+            <div>
+                <button id="btn" type="button" class="btn btn-outline-danger">New Game</button>
+                
+                <span id="startnewgame">&larr; Click on New Game to start</span>
+            </div>
+        </div>
+        <div class="timeandmove">
+            <div id="time">
+                <h5>Time</h5><span id="showtime"></span>
+            </div>
+            <div id="moves">
+                <h5>Moves</h5><span id="NoofMoves"></span>
+            </div>
+        </div>
+        <div id="game" class="game">
+            <div id="boxes" class="boxes">
+                <!-- <div class="box" id="1">1</div>
+                <div class="box" id="2">2</div>
+                <div class="box" id="3">3</div>
+                <div class="box" id="4">4</div>
+                <div class="box" id="5">5</div>
+                <div class="box" id="6">6</div>
+                <div class="box" id="7">7</div>
+                <div class="box" id="8">8</div>
+                <div class="box" id="9">9</div>
+                <div class="box" id="10">10</div>
+                <div class="box" id="11">11</div>
+                <div class="box" id="12">12</div>
+                <div class="box" id="13">13</div>
+                <div class="box" id="14">14</div>
+                <div class="box" id="15">15</div>
+                <div class="box" id="16"></div> -->
+                <!-- <div id="choose">Choose the type of puzzle</div> -->
+
+            </div>
+            <div id="winpart">
+                <img id="gif" src="excited.gif" alt="">
+                <div id="wintext">Congratulations! You have completed the challenge</div>
+                <!-- <div id="pausebtn">Pause</div> -->
+                <!-- <div id="playbtn">Play</div> -->
+            </div>
+        </div>
+        <button id="myBtn">How To Play</button>
+        <button id="backbutton"><a href="index.html"> Go Back</a></button>
+        <!-- <button id="playpausebtn">Stop Background Music</button> -->
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>The 15-puzzle (also called Gem Puzzle, Boss Puzzle, Game of Fifteen, Mystic Square and many others) is a sliding puzzle that consists of a frame of numbered square tiles in random order with one tile missing. The puzzle also exists in other sizes, particularly the smaller 8-puzzle. If the size is 3x3 tiles, the puzzle is called the 8-puzzle or 9-puzzle, and if 4x4 tiles, the puzzle is called the 15-puzzle or 16-puzzle named, respectively, for the number of tiles and the number of spaces. The object of the puzzle is to place the tiles in order (see diagram) by making sliding moves that use the empty space.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    let bgmusic= new Audio('bgmusic.mp3');
+setInterval(() => {
+ bgmusic.play();
+//   console.log(bgmusic.currentTime)  ;
+}, 1000);
+    // var boxes = Array.from(document.getElementsByClassName('box'));
+    // let a=parseInt(prompt("Enter the number of rows you want in the puzzle"));
+//             let b=parseInt(prompt("Enter the number of columns you want in the puzzle"));
+                // if(a <3 || b<3)
+                // {
+                //     alert("Minimum Entry is 3x3, So enter again");
+                    
+                // }
+                let countiteration=0
+                do {
+                    countiteration+=1;
+                    if(countiteration>=2)
+                    {
+                        alert("Minimum Entry is 3x3, So Please enter again");
+                    }
+                    var a=parseInt(prompt("Enter the number of rows you want in the puzzle"));
+                    var b=parseInt(prompt("Enter the number of columns you want in the puzzle"));
+                } while ((a<3 || b<3));
+// var a=0;
+// var b=0;
+// var n=a*b;
+
+
+        //         n=a*b;
+        // let a=4;
+        // let b=4;
+        // a=3;
+        // b=5;
+       let n=a*b; // n = a x b;
+
+       // console.log(arrayofbox);
+       
+       
+       // for (let i = 0; i < boxes.length; i++) {
+           //     boxes[i].innerHTML = '';
+           
+           // }
+           let actualarray=[];
+           let randomNumbers=[];
+           for (let i = 0; i < n-1; i++) {
+               actualarray[i]=i+1;
+               randomNumbers[i]=i+1;
+            }
+            actualarray[n-1]='';
+            randomNumbers[n-1]='';
+            // let actualarray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ''];
+            // let randomNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ''];
+            function randomArrayShuffle(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex;
+                while (0 !== currentIndex) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
+
+        
+        btn.addEventListener('click', () => {
+                randomNumbers = randomArrayShuffle(randomNumbers);
+                for (let i = 0; i < n; i++) {
+                    // const element = boxes[i];
+                    arrayofbox[i].innerHTML = randomNumbers[i];
+
+                }
+                startnewgame.style.opacity = 0;
+                gif.style.display = 'none';
+                wintext.style.display = 'none';
+                countmoves = 0;
+                var difference = 0;
+
+                let time = new Date();
+                initialTime = time.getTime();
+
+                let k = setInterval(() => {
+
+                    let time = new Date();
+                    let currentTime = time.getTime();
+                    difference = currentTime - initialTime;
+                    difference = difference / 1000;
+                    // console.log(difference);
+                    let hourDifference = Math.floor(difference / 3600);
+                    difference -= hourDifference * 3600;
+                    let minuteDifference = Math.floor(difference / 60);
+                    difference -= minuteDifference * 60;
+                    let secondDifference = Math.floor(difference);
+                    // console.log(`${hourDifference} h, ${minuteDifference} m, ${secondDifference} s`);
+                    if (hourDifference == 0 && minuteDifference == 0)
+                        showtime.innerHTML = `${secondDifference}s`;
+                    else if (hourDifference == 0 && minuteDifference != 0)
+                        showtime.innerHTML = `${minuteDifference}m ${secondDifference}s`;
+                    else
+                        showtime.innerHTML = `${hourDifference}h ${minuteDifference}m ${secondDifference}s`;
+                }, 1000)
+            })
+        let arrayofbox=[];
+        for (let i = 0; i < n; i++) {
+            arrayofbox[i]=document.createElement('div');
+            arrayofbox[i].id=`${i+1}`;
+            arrayofbox[i].className=`box`;
+            // arrayofbox[i].innerHTML=`${i+1}`;
+            
+        }
+        let boxid=document.getElementById('boxes');
+        for (let i = 0; i < n; i++) {
+            boxid.append(arrayofbox[i]);
+        }
+        boxid.style=`grid-template-columns: repeat(${b}, 7vw);grid-template-rows: repeat(${a}, 7vw);`
+        var modal = document.getElementById("myModal");
+
+        var btn1 = document.getElementById("myBtn");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn1.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        let countmoves = 0;
+        document.addEventListener('keydown', (event) => {
+            let emptybox = 1;
+            for (let i = 0; i < n; i++) {
+                const ele = arrayofbox[i];
+                if (ele.innerHTML == '')
+                    emptybox = i + 1;
+            }
+            let ebox = document.getElementById(`${emptybox}`);
+            leftbox = emptybox - 1;
+            rightbox = emptybox + 1;
+            upperbox = emptybox - b;
+            belowbox = emptybox + b;
+            let lcheck=1;
+                let rcheck=1;
+                let ucheck=1;
+                let bcheck=1;
+                for (let i = 1; i <= b; i++) {
+                    if(ebox.id == i)
+                    {
+                        ucheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = 1; i < a*b; i=i+b) {
+                    if(ebox.id == i)
+                    {
+                        lcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = b; i <= a*b; i=i+b) {
+                    if(ebox.id == i)
+                    {
+                        rcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = a*b - b + 1; i <= a*b; i++) {
+                    if(ebox.id == i)
+                    {
+                        bcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+            if ((event.code == 'ArrowDown') && (bcheck)) {
+                let bbox = document.getElementById(`${belowbox}`);
+                ebox.innerHTML = bbox.innerHTML;
+                bbox.innerHTML = '';
+                countmoves += 1;
+            }
+            else if ((event.code == "ArrowUp") && (ucheck)) {
+                let ubox = document.getElementById(`${upperbox}`);
+                ebox.innerHTML = ubox.innerHTML;
+                ubox.innerHTML = '';
+                countmoves += 1;
+            } else if ((event.code == "ArrowLeft") && (lcheck)) {
+                let lbox = document.getElementById(`${leftbox}`);
+                ebox.innerHTML = lbox.innerHTML;
+                lbox.innerHTML = '';
+                countmoves += 1;
+            } else if ((event.code == "ArrowRight") && (rcheck)) {
+                let rbox = document.getElementById(`${rightbox}`);
+                ebox.innerHTML = rbox.innerHTML;
+                rbox.innerHTML = '';
+                countmoves += 1;
+            }
+            let count = 0;
+            for (let i = 0; i <n; i++) {
+                if (arrayofbox[i].innerHTML == actualarray[i]) {
+                    count += 1;
+                }
+            }
+            if (count == n) {
+                gif.style.display = 'block';
+                wintext.style.display = 'block';
+                startnewgame.style.opacity = 1;
+            }
+        })
+        arrayofbox.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                var emptybox = 1;
+                for (let i = 0; i < n; i++) {
+                    const ele = arrayofbox[i];
+                    if (ele.innerHTML == '')
+                        emptybox = i + 1;
+                }
+
+                let ebox = document.getElementById(`${emptybox}`);
+                leftbox = emptybox - 1;
+                rightbox = emptybox + 1;
+                upperbox = emptybox - b;
+                belowbox = emptybox + b;
+                let lcheck=1;
+                let rcheck=1;
+                let ucheck=1;
+                let bcheck=1;
+                for (let i = 1; i <= b; i++) {
+                    if(ebox.id == i)
+                    {
+                        ucheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = 1; i < a*b; i=i+b) {
+                    if(ebox.id == i)
+                    {
+                        lcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = b; i <= a*b; i=i+b) {
+                    if(ebox.id == i)
+                    {
+                        rcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                for (let i = a*b - b + 1; i <= a*b; i++) {
+                    if(ebox.id == i)
+                    {
+                        bcheck=0;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                if ((element.id == leftbox) && (lcheck)) {
+                    let lbox = document.getElementById(`${leftbox}`);
+                    ebox.innerHTML = lbox.innerHTML;
+                    lbox.innerHTML = '';
+                    countmoves += 1;
+                }
+                else if ((element.id == rightbox) && (rcheck)) {
+                    let rbox = document.getElementById(`${rightbox}`);
+                    ebox.innerHTML = rbox.innerHTML;
+                    rbox.innerHTML = '';
+                    countmoves += 1;
+                }
+                else if ((element.id == upperbox) && (ucheck)) {
+                    let ubox = document.getElementById(`${upperbox}`);
+                    ebox.innerHTML = ubox.innerHTML;
+                    ubox.innerHTML = '';
+                    countmoves += 1;
+                }
+                else if ((element.id == belowbox) && (bcheck)) {
+                    let bbox = document.getElementById(`${belowbox}`);
+
+                    ebox.innerHTML = bbox.innerHTML;
+                    bbox.innerHTML = '';
+                    countmoves += 1;
+                }
+                let count = 0;
+                for (let i = 0; i < n; i++) {
+                    if (arrayofbox[i].innerHTML == actualarray[i]) {
+                        count += 1;
+                    }
+                }
+                if (count == n) {
+                    gif.style.display = 'block';
+                    wintext.style.display = 'block';
+                    startnewgame.style.opacity = 1;
+                }
+            })
+        });
+        setInterval(() => {
+            NoofMoves.innerHTML = countmoves;
+        }, 1000);
+
+        // arrayofbox.forEach(() => {
+
+            
+        // });
+
+
+    </script>
+</body>
+
+</html>
